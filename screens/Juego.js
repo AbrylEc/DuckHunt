@@ -67,7 +67,6 @@ export default function Juego({ navigation }) {
         source={require("../assets/Stage02.png")} // Ruta de la imagen de fondo
         style={styles.backgroundImage}
       >
-
         <View style={styles.row}>
 
         {/* <Image source={require("../assets/duck_hunt_logo.png")} style={styles.imgT} /> */}
@@ -75,10 +74,8 @@ export default function Juego({ navigation }) {
         <Text style={{ fontSize: 30 }}> {tiempo} </Text>
 
         <TouchableOpacity style={styles.btn} onPress={() => logOut()}>
-          <Text style={styles.txt}>Atrás</Text>
+          <Text style={styles.txtBtn}>Salir</Text>
         </TouchableOpacity>
-
-
 
         {/* <Text style ={styles.time}> {tiempo} </Text> */}
 
@@ -98,7 +95,7 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+   
     alignItems: "center",
   },
   imgT:{
@@ -106,7 +103,23 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    alignItems: 'flex-start',
     marginBottom: 10,
+    marginTop : 10,
+  },
+  btn: {
+    color: "#fff",
+    height: 30,
+    width: '20%',
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: "black",
+    margin: 10,
+  },
+  txtBtn: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
