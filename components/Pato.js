@@ -1,13 +1,24 @@
 import { View, Text, Image, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function Pato() {
+export default function Pato(prop) {
+  // console.log(prop);
+
   //Construímos un json
   const [posicion, setPosicion] = useState({ x: 0, y: 0 });
+  const [imageSource, setImageSource] = useState(require("../assets/duck.png"));
 
+  const changeImage = () => {
+    setImageSource(require("../assets/duck_clicked.png")); // Cambiar la imagen momentáneamente
+    setTimeout(() => {
+      setImageSource(require("../assets/duck.png")); // Volver a la imagen original después de 1 segundo
+    }, 2000);
+  };
+
+  //Esta función mueve al pato
   function moverPato() {
-    const MAX_X = 250;
+    const MAX_X = 200;
     const MAX_Y = 600;
 
     /*En funciones randómicas se coloca el * para especificar el 
@@ -18,14 +29,33 @@ export default function Pato() {
     setPosicion({ x: randomX, y: randomY });
   }
 
+  //Esta función mueve al pato por tiempo
+  useEffect(() => {
+    const interval = setInterval(() => {
+      moverPato();
+    }, 2000);
+  }, []);
+
+  ///////////////////////////////////////////////////////////////
+
+  function compuesta() {
+    moverPato();
+    prop.presionar();
+    {changeImage}
+  }
+
   return (
-    <View style={{ top: posicion.y, left: posicion.x, position: "absolute" }}>
-      <TouchableOpacity onPress={() => moverPato()}>
-
-        <Image source={require("../assets/duck.png")} style={styles.img} />
+    <View
+      style={{
+        top: posicion.y,
+        left: posicion.x,
+        position: "absolute",
+        padding: 16,
+      }}
+    >
+      <TouchableOpacity onPress={() => compuesta()}>
+        <Image source={imageSource} style={styles.img} />
       </TouchableOpacity>
-
-      <Text>Pato</Text>
     </View>
   );
 }

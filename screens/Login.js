@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../components/Config";
+import { useFonts } from 'expo-font';
 
 export default function Login({ navigation }) {
   const [correo, setCorreo] = useState("");
@@ -27,7 +28,7 @@ export default function Login({ navigation }) {
         // Signed in
         const user = userCredential.user;
         // ...
-        // Alert.alert("Acceso correcto")
+        Alert.alert("EMPEZAMOS...!!!", "Atrapa la mayor cantidad de patos en el tiempo establecido...!!!");
         navigation.navigate("Juego");
       })
       .catch((error) => {
@@ -54,10 +55,19 @@ export default function Login({ navigation }) {
     navigation.navigate("Registro");
   }
 
+  //Importar fonts
+  const [fontsLoaded] = useFonts({
+    'pixel': require('../assets/fonts/pixel.ttf'),
+  });
+
+  if(!fontsLoaded){
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../assets/Stage02.png")}
+        source={require("../assets/Stage01.png")}
         style={styles.backgroundImage}
       >
         <Image source={require("../assets/title.png")} style={styles.imgT} />
@@ -72,9 +82,11 @@ export default function Login({ navigation }) {
 
         <TextInput
           placeholder="Ingrese su contraseña"
+          secureTextEntry={true}
+      
           onChangeText={(text) => setPass(text)}
           value={pass}
-          style={styles.inputLogin}
+          style={styles.inputPass}
         />
 
         <TouchableOpacity style={styles.btn} onPress={() => login()}>
@@ -119,11 +131,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 2,
     borderColor: "black",
-    margin: 10,
+    margin: 5,
+    fontFamily: "pixel"
   },
   txtBtn: {
     color: "#fff",
-    fontWeight: "bold",
+    fontFamily: "pixel"
   },
   inputLogin: {
     width: '80%',
@@ -132,5 +145,16 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black', // Color de la línea inferior de guía (opcional)
     paddingVertical: 5, // Espacio vertical interno del TextInput
     margin: 5,
+    fontWeight: 'bold'
   },
+  inputPass: {
+    width: '80%',
+    textAlign : "center",
+    borderBottomWidth: 1, // Ancho de la línea inferior de guía
+    borderBottomColor: 'black', // Color de la línea inferior de guía (opcional)
+    paddingVertical: 5, // Espacio vertical interno del TextInput
+    margin: 5,
+    fontWeight: 'bold',    
+  },
+
 });

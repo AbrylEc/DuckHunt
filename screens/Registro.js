@@ -15,7 +15,9 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../components/Config";
 import { db } from "../components/Config";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
+
+import { useFonts } from 'expo-font';
 
 export default function Registro({ navigation }) {
   const [correo, setCorreo] = useState("");
@@ -35,7 +37,7 @@ export default function Registro({ navigation }) {
 
         guardar(correo, nick, edad);
 
-        Alert.alert("Mensaje", "Usuario registrado con exito");
+        Alert.alert("REGISTRO EXITOSO", "Ahora atrapa la mayor cantidad de patos en el tiempo establecido...!!!");
         navigation.navigate("Juego");
 
         // ...
@@ -43,21 +45,26 @@ export default function Registro({ navigation }) {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        Alert.alert("Error");
+        Alert.alert("Error", "Ingrese sus datos nuevamente");
+        console.log(errorMessage)
         // ..
       });
   }
 
   //Función para guardar los datos en un json
-  function guardar(correoE, nickE, edadE) {
+  function guardar(correo, nick, edad) {
     /* Se elimina la línea 45 debido a que ya se encuentra
   implementada en el archivo Config.js*/
     // const db = getDatabase();
     set(ref(db, "jugadores/" + nick), {
-      email: correoE,
-      nick: nickE,
-      age: edadE,
+      email: correo,
+      nick: nick,
+      age: edad,
     });
+  }
+
+  function salir() {
+    navigation.navigate("Login");
   }
 
   //Función eliminar
@@ -98,7 +105,7 @@ export default function Registro({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../assets/Stage02.png")}
+        source={require("../assets/Stage01.png")}
         style={styles.backgroundImage}
       >
         <TextInput
@@ -129,6 +136,10 @@ export default function Registro({ navigation }) {
 
         <TouchableOpacity style={styles.btn} onPress={() => registrar()}>
           <Text style={styles.txtBtn}>REGISTRAR</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btn} onPress={() => salir()}>
+          <Text style={styles.txtBtn}>SALIR</Text>
         </TouchableOpacity>
 
         {/* <Button title="Leer" onPress={() => leer()} /> */}
@@ -176,11 +187,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 2,
     borderColor: "black",
-    margin: 20,
+    marginTop : 10,
+  
   },
   txtBtn: {
     color: "#fff",
-    fontWeight: "bold"
+    fontFamily: "pixel"
   },
   input: {
     width: '80%',
@@ -188,6 +200,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, // Ancho de la línea inferior de guía
     borderBottomColor: 'black', // Color de la línea inferior de guía (opcional)
     paddingVertical: 5, // Espacio vertical interno del TextInput
+    fontWeight: 'bold',
+    
   },
 
 });
